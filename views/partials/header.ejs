@@ -3,23 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/main.css" />
     <title><%= title %></title>
-    <% if (mode.includes('dev')) { %>
-      <script>
-          const ws = new WebSocket(`ws://${location.hostname}:${parseInt(<%= port %>) + 1}`);
-          ws.onclose = () => {
-              setTimeout(() => location.reload(), 2000);
-          };
-      </script>
-  <% } %>
+    <% if (inDevMode) { %>
+        <script>
+        const ws = new WebSocket(`ws://localhost:${parseInt(<%= port %>) + 1}`);
+            ws.onclose = () => {
+                setTimeout(() => location.reload(), 2000);
+        };
+        </script>
+    <% } %>
   </head>
   <body>
     <header>
       <nav>
         <ul>
-          <li><a href="./">Home</a></li>
-          <li><a href="./about">About</a></li>
-          <li><a href="./contact">Contact</a></li>
+          <li><a href="/">Home</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/contact">Contact</a></li>
+          <li><a href="/account/john/1234">Account (John)</a></li>
+          <li><a href="/account/0987/1234">Account (Bad Name)</a></li>
+          <li><a href="/account/john/doe">Account (Bad ID)</a></li>
         </ul>
       </nav>
     </header>

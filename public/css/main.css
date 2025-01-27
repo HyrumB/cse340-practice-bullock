@@ -1,4 +1,12 @@
-html, body{
-    background-color: gray;
-    color: antiquewhite;
+html, body {
+    background-color: darkcyan;
 }
+
+table, tr{
+    background-color: goldenrod;
+    
+    td{
+        border: 2px;
+    }
+}
+
