@@ -1,12 +1,15 @@
 html, body {
-    background-color: darkcyan;
+    background-color: cyan;
 }
 
 table, tr{
     background-color: goldenrod;
-    
-    td{
-        border: 2px;
-    }
+
+
 }
 
+
+#dev-mode-warning{
+    color: greenyellow;
+    font-size: 80px;
+}

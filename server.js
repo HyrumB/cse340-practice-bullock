@@ -21,13 +21,21 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Global middleware to check the current mode
 app.use((req, res, next) => {
-  res.locals.inDevMode = true;
-  res.locals.port = port;
-  res.locals.devModeWarning = ""; // Placeholder for a dev mode warning
+  req.inDevMode = mode.includes("dev");
+
+  res.locals.devModeWarning = `<div id="dev-mode-warning" > HEY! YOU ARE IN DEV MODE!!</div>`; // dev mode warning
+
   res.locals.scripts = []; // Placeholder for front-end scripts
 
-  if (req.devModeEnabled) {
-    // Complete the missing code here...
+  if (req.inDevMode) {
+    res.locals.scripts.push(
+      ` <script>
+        const ws = new WebSocket('ws://localhost:${parseInt(port) + 1}');
+        ws.onclose = () => {
+          setTimeout(() => location.reload(), 2000);
+        };
+      </script>`
+    );
   }
   next();
 });

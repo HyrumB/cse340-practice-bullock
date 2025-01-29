@@ -5,13 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/main.css" />
     <title><%= title %></title>
-    <% if (inDevMode) { %>
-        <script>
-        const ws = new WebSocket(`ws://localhost:${parseInt(<%= port %>) + 1}`);
-            ws.onclose = () => {
-                setTimeout(() => location.reload(), 2000);
-        };
-        </script>
+    <% if (scripts && scripts.length) { %>
+        <%- scripts.join('\n') %>
     <% } %>
   </head>
   <body>
