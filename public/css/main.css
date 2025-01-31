@@ -1,15 +1,3 @@
 html, body {
     background-color: darkcyan;
 }
-
-table, tr{
-    background-color: goldenrod;
-
-
-}
-
-
-#dev-mode-warning{
-    color: greenyellow;
-    font-size: 80px;
-}
