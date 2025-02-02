@@ -6,6 +6,7 @@ import { fileURLToPath } from 'url';
 // Import all other required modules: Route handlers, Middleware, etc.
 import devUtilityInjector from './src/middleware/dev-utilities.js';
 import injectorSetup from './src/middleware/locals-setup.js';
+import webSocketErrorHandler from './src/middleware/web-socket.js';
 
 import baseRoute from './src/routes/index.js';
 import layouts from './src/middleware/layouts.js';
@@ -40,6 +41,10 @@ app.set('views', path.join(__dirname, 'src/views'));
 app.set('layout default', 'default');
 app.set('layouts', path.join(__dirname, 'src/views/layouts'));
 app.use(layouts);
+
+// websocket error handling
+app.use(webSocketErrorHandler);
+
  
 // Use the home route for the root URL
 app.use('/', baseRoute);
