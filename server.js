@@ -4,6 +4,9 @@ import path from 'path';
 import { fileURLToPath } from 'url';
  
 // Import all other required modules: Route handlers, Middleware, etc.
+import devUtilityInjector from './src/middleware/dev-utilities.js';
+import injectorSetup from './src/middleware/locals-setup.js';
+
 import baseRoute from './src/routes/index.js';
 import layouts from './src/middleware/layouts.js';
 import staticPaths from './src/middleware/static-paths.js';
@@ -16,8 +19,18 @@ const __dirname = path.dirname(__filename);
 // Create an instance of an Express application
 const app = express();
 
+// use middleware
+app.use(injectorSetup);
+app.use(devUtilityInjector);
+
+
 // Serve static files from the public directory
-app.use(staticPaths);
+// app.use(staticPaths);
+
+// temperary fix to public folder being inaccesable
+app.use('/css', express.static(path.join(__dirname, 'public/css')));
+app.use('/js', express.static(path.join(__dirname, 'public/js')));
+app.use('/images', express.static(path.join(__dirname, 'public/images')));
  
 // Set EJS as the view engine and record the location of the views directory
 app.set('view engine', 'ejs');
@@ -31,9 +44,11 @@ app.use(layouts);
 // Use the home route for the root URL
 app.use('/', baseRoute);
 
+
 // Apply error handlers
 app.use(notFoundHandler);
 app.use(globalErrorHandler);
+
  
 // Start the server on the specified port
 const PORT = process.env.PORT || 3000;
