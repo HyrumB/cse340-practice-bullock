@@ -3,8 +3,6 @@ import { promisify } from 'util';
 import readline from 'readline';
 import os from 'os';
 
-// run with node restore-ports.js <port1> <port2> ...
-
 const execAsync = promisify(exec);
 
 class PortKiller {

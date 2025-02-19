@@ -1,0 +1,29 @@
+<form action="/category/delete/<%= game.game_id %>" method="POST">
+    
+    <!-- Display the current game image here, or use https://placehold.co/300x300/jpg if none exists -->
+    <img class="game-image" src="<%= game.image_path %>" alt="Game Image">
+ 
+    <div>
+        <label for="game_name">Game Name:</label>
+        <!-- Pre-fill this input with the game's existing name -->
+        <p> <%= game.game_name %> </p>
+    </div>
+ 
+    <div>
+        <label for="game_description">Game Description:</label>
+        <!-- Pre-fill this textarea with the game's existing description -->
+        <p><%= game.game_description %></p>
+    </div>
+ 
+    <div>
+        <label for="classification_id">Classification:</label>
+        <p><%= game.classification_name %></p>            
+    </div>
+ 
+    <div>
+        <label for="image">Image:</label>
+        <p><%= game.image_path %></p>
+    </div>
+ 
+    <button type="submit">Delete Game</button>
+</form>

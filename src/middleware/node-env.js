@@ -1,15 +1,12 @@
+import { getNav } from '../utils/index.js';
 
 const port = process.env.PORT || 3000;
 const mode = process.env.MODE || 'production';
 
-
-import { getNav } from '../utilities/index.js';
- 
- 
 const configureNodeEnvironment = async (req, res, next) => {
-    res.locals.navHTML = await getNav();
     res.locals.devModeWarning = '';
     res.locals.isDevMode = mode.includes('dev');
+    res.locals.navHTML = await getNav();
     res.locals.port = port;
     res.locals.scripts = [];
     res.locals.styles = [];
@@ -19,7 +16,7 @@ const configureNodeEnvironment = async (req, res, next) => {
         res.locals.devModeWarning = '<p class="dev-mode-msg">Site is in development mode<p>';
 
         // Add a stylesheet that loads only in development mode
-        res.locals.styles.push('<link rel="stylesheet" href="/css/dev.css">');
+        res.locals.styles.push('<link rel="stylesheet" href="/css/dev-mode.css">');
 
         // Add livereload script
         res.locals.scripts.push(`
