@@ -6,6 +6,7 @@ import { fileURLToPath } from 'url';
 // Import all other required modules: Route handlers, Middleware, etc.
 import baseRoute from './src/routes/index.js';
 import categoryRoute from './src/routes/category/index.js';
+import accountRoute from './src/routes/account/index.js';
 import configNodeEnv from './src/middleware/node-env.js';
 import configureStaticPaths from './src/middleware/static-paths.js';
 import fileUploads from './src/middleware/file-uploads.js';
@@ -57,6 +58,9 @@ app.use('/game', gameRoute);
 
 // Handle routes specific to the categories
 app.use('/category', categoryRoute);
+
+// Handle routes specific to the accounts
+app.use('/account', accountRoute);
 
 // Apply error handlers
 app.use(notFoundHandler);
