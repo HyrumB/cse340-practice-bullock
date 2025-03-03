@@ -1,11 +1,12 @@
 import { Router } from 'express';
 import { addCategory, deleteCategory, getCategories } from '../../models/category/index.js';
 import { getGamesByCategory, moveGamesToCategory } from '../../models/game/index.js';
+import { requireAuth } from "../../utils/index.js";
 
 const router = Router();
 
 // Add a new category route (view)
-router.get('/add', async (req, res) => {
+router.get('/add', requireAuth, async (req, res) => {
     res.render('category/add', { title: 'Add Category' });
 });
 
@@ -31,7 +32,7 @@ router.post('/add', async (req, res) => {
 });
 
 // Delete a category route (view)
-router.get('/delete', async (req, res) => {
+router.get('/delete', requireAuth, async (req, res) => {
     const categories = await getCategories();
     res.render('category/delete', { title: 'Delete Category', categories });
 });

@@ -12,19 +12,45 @@ import configureStaticPaths from './src/middleware/static-paths.js';
 import fileUploads from './src/middleware/file-uploads.js';
 import gameRoute from './src/routes/game/index.js';
 import layouts from './src/middleware/layouts.js';
+import flashMessages from './src/middleware/flash-messages.js';
 import { notFoundHandler, globalErrorHandler } from './src/middleware/error-handler.js';
 import { setupDatabase } from './src/database/index.js';
+import session from 'express-session';
+import sqlite from "connect-sqlite3";
+ 
 
 // Get the current file path and directory name
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+
 // Start the server on the specified port
 const port = process.env.PORT || 3000;
 const mode = process.env.MODE || 'production';
 
+// Add after your imports and before you define const app
+const sqliteSessionStore = sqlite(session);
+
+
 // Create an instance of an Express application
 const app = express();
+
+// Add the session middleware after you configure the configNodeEnv middleware
+app.use(session({
+    store: new sqliteSessionStore({
+        db: "db.sqlite",           // SQLite database file
+        dir: "./src/database/",    // Directory where the file is stored
+        concurrentDB: true         // Allows multiple processes to use the database
+    }),
+    secret: process.env.SESSION_SECRET || "default-secret",
+    resave: false,                 // Prevents re-saving sessions that have not changed
+    saveUninitialized: true,       // Saves new sessions even if unmodified
+    name: "sessionId",
+    cookie: {
+        secure: false,             // Set to `true` in production with HTTPS
+        httpOnly: true,            // Prevents client-side access to the cookie
+    }
+}));
 
 // Configure the application based on environment settings
 app.use(configNodeEnv);
@@ -40,6 +66,9 @@ app.set('views', path.join(__dirname, 'src/views'));
 app.set('layout default', 'default');
 app.set('layouts', path.join(__dirname, 'src/views/layouts'));
 app.use(layouts);
+
+// Middleware to handle flash messages
+app.use(flashMessages);
 
 // Middleware to process multipart form data with file uploads
 app.use(fileUploads);
@@ -93,3 +122,5 @@ app.listen(port, async () => {
 
     console.log(`Server running on http://127.0.0.1:${port}`);
 });
+
+

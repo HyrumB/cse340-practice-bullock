@@ -3,7 +3,7 @@ import path from 'path';
 import { Router } from 'express';
 import { getCategories } from '../../models/category/index.js';
 import { addNewGame, deleteGame, getGameById, getGamesByCategory, updateGame } from '../../models/game/index.js';
-
+import { requireAuth } from '../../utils/index.js';
 const router = Router();
 
 // Helper function to verify and move uploaded game image
@@ -32,7 +32,7 @@ const getVerifiedGameImage = (images = []) => {
 };
 
 // Add new game route (view)
-router.get('/add', async (req, res) => {
+router.get('/add', requireAuth, async (req, res) => {
     const categories = await getCategories();
     res.render('game/add', { title: 'Add New Game', categories });
 });
@@ -54,7 +54,7 @@ router.post('/delete/:id', async (req, res) => {
 });
 
 // Edit existing game route (view)
-router.get('/edit/:id', async (req, res) => {
+router.get('/edit/:id', requireAuth, async (req, res) => {
     const categories = await getCategories();
     const game = await getGameById(req.params.id);
     res.render('game/edit', { title: 'Edit Game', categories, game });
